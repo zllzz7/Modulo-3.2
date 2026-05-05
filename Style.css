@@ -1,0 +1,703 @@
+/* =============================================
+   ARCHIVO: style.css
+   DESCRIPCIÓN: Estilos para la página informativa
+   del Módulo 3.2 – Desarrollo Web.
+   Organizado en secciones para fácil mantenimiento.
+============================================= */
+
+/* --- Variables globales de diseño ---
+   Centraliza colores, fuentes y tamaños para 
+   poder cambiarlos en un solo lugar */
+:root {
+  --bg:         #0b0c10;       /* Fondo principal oscuro */
+  --bg-alt:     #111318;       /* Fondo alternativo para secciones */
+  --surface:    #1a1d24;       /* Superficie de tarjetas */
+  --border:     #2a2d36;       /* Color de bordes sutiles */
+  --accent:     #4ecca3;       /* Verde menta como color de acento */
+  --accent2:    #ff6b6b;       /* Rojo coral como segundo acento */
+  --text:       #e8eaf0;       /* Texto principal claro */
+  --text-muted: #7a7f94;       /* Texto secundario / apagado */
+  --font-head:  'Syne', sans-serif;      /* Fuente para títulos */
+  --font-body:  'DM Sans', sans-serif;   /* Fuente para cuerpo */
+  --radius:     12px;          /* Radio de bordes redondeados */
+  --shadow:     0 4px 24px rgba(0,0,0,0.4); /* Sombra estándar */
+  --max-w:      1100px;        /* Ancho máximo del contenido */
+  --transition: 0.3s ease;     /* Duración de transiciones */
+}
+
+/* --- Reset básico ---
+   Elimina márgenes y paddings predeterminados del navegador
+   y aplica box-sizing:border-box en todos los elementos */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Estilos base del documento ---
+   Define la tipografía y el color de fondo global */
+html {
+  scroll-behavior: smooth; /* Desplazamiento suave al hacer clic en anclas */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Contenedor centrado ---
+   Limita el ancho del contenido y lo centra horizontalmente */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* =============================================
+   ENCABEZADO / BARRA DE NAVEGACIÓN
+   Barra fija en la parte superior de la pantalla
+============================================= */
+.site-header {
+  position: fixed;           /* Se mantiene visible al hacer scroll */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(11, 12, 16, 0.85);
+  backdrop-filter: blur(12px); /* Efecto de vidrio esmerilado */
+  border-bottom: 1px solid var(--border);
+}
+
+/* Layout interno del header: logo a la izquierda, nav a la derecha */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+/* --- Logo ---
+   Nombre del sitio con acento de color */
+.logo {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+/* La segunda parte del logo usa el color de acento */
+.logo span {
+  color: var(--accent);
+}
+
+/* --- Menú de navegación principal ---
+   Lista horizontal de enlaces */
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+/* Estilos de cada enlace del menú */
+.nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color var(--transition);
+  position: relative;
+}
+
+/* Línea animada que aparece debajo del enlace al pasar el cursor */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width var(--transition);
+}
+
+.nav-link:hover { color: var(--text); }
+.nav-link:hover::after { width: 100%; }
+
+/* --- Botón hamburguesa (visible solo en móvil) ---
+   Muestra tres líneas horizontales */
+.nav-toggle {
+  display: none; /* Oculto en escritorio */
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Cada línea del ícono hamburguesa */
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* Animación del botón cuando el menú está abierto */
+.nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =============================================
+   SECCIÓN HERO
+   Primera sección visible, con fondo decorativo
+============================================= */
+.hero {
+  min-height: 100vh;          /* Ocupa toda la altura de la pantalla */
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+/* Fondo con gradiente radial para efecto de brillo */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(78, 204, 163, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255, 107, 107, 0.06) 0%, transparent 60%);
+  pointer-events: none; /* No interfiere con clics */
+}
+
+/* Contenido centrado del hero */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+
+/* Etiqueta pequeña sobre el título */
+.hero-label {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  background: rgba(78, 204, 163, 0.12);
+  border: 1px solid rgba(78, 204, 163, 0.3);
+  border-radius: 100px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+/* Título principal del hero */
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(2.8rem, 6vw, 5rem); /* Tamaño fluido según el viewport */
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+/* La parte en cursiva usa el color de acento */
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* Subtítulo descriptivo del hero */
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+}
+
+/* =============================================
+   BOTÓN PRIMARIO
+   Botón de llamada a la acción reutilizable
+============================================= */
+.btn-primary {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  background: var(--accent);
+  color: #0b0c10;              /* Texto oscuro sobre fondo claro */
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 100px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  letter-spacing: 0.3px;
+}
+
+/* Efecto al pasar el cursor: se eleva con sombra */
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(78, 204, 163, 0.35);
+  background: #5fddbb;
+}
+
+/* =============================================
+   SECCIONES DE CONTENIDO
+   Estilo base compartido por todas las secciones
+============================================= */
+.section {
+  padding: 6rem 0;
+  /* Estado inicial para animación de scroll */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+/* Clase añadida por JavaScript cuando la sección entra en pantalla */
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Secciones alternas usan el fondo secundario */
+.section-alt {
+  background: var(--bg-alt);
+}
+
+/* --- Encabezado de sección ---
+   Etiqueta numérica + título */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Etiqueta numérica (01, 02, etc.) */
+.tag {
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+
+/* Título de sección */
+.section-header h2 {
+  font-family: var(--font-head);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+/* La parte resaltada del título usa el acento */
+.section-header h2 strong {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+/* Párrafo introductorio de sección */
+.section-intro {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin-bottom: 3rem;
+}
+
+/* =============================================
+   CUADRÍCULA DE TARJETAS (sección HTML)
+   Layout de 3 columnas que colapsa en móvil
+============================================= */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+/* --- Tarjeta individual ---
+   Contiene ícono, título y descripción */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.75rem;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Efecto de elevación al pasar el cursor */
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 32px rgba(78, 204, 163, 0.1);
+}
+
+/* Ícono emoji grande de la tarjeta */
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Título de la tarjeta */
+.card h3 {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+/* Texto descriptivo de la tarjeta */
+.card p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* =============================================
+   BLOQUE DE CÓDIGO
+   Muestra código fuente con resaltado de colores
+============================================= */
+.code-block {
+  background: #0d1117;          /* Fondo estilo GitHub oscuro */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+
+/* Barra superior del bloque de código */
+.code-header {
+  background: var(--surface);
+  padding: 0.6rem 1.2rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Área de código con scroll horizontal si es muy largo */
+.code-block pre {
+  padding: 1.5rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+/* Colores de sintaxis para el código de ejemplo */
+.code-block .t  { color: #79c0ff; }  /* Etiquetas HTML */
+.code-block .a  { color: #ffb454; }  /* Atributos / propiedades */
+.code-block .s  { color: #a5d6ff; }  /* Valores / strings */
+.code-block .c  { color: #8b949e; font-style: italic; } /* Comentarios */
+
+/* =============================================
+   LAYOUT DE DOS COLUMNAS (sección CSS)
+   Texto a la izquierda, código a la derecha
+============================================= */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Texto de la columna izquierda */
+.col-text p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Lista de características con íconos */
+.feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Cada ítem de la lista de características */
+.feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* El ícono emoji se destaca con tamaño mayor */
+.feature-list li span {
+  font-size: 1.2rem;
+}
+
+/* =============================================
+   LÍNEA DE TIEMPO GIT
+   Visualiza los pasos del flujo de trabajo Git
+============================================= */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+/* Línea vertical conectora entre pasos */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+/* Cada elemento de la línea de tiempo */
+.timeline-item {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+/* Círculo numerado que actúa como marcador */
+.timeline-dot {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #0b0c10;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: -2.5rem;               /* Alineado con la línea vertical */
+  top: 0;
+  box-shadow: 0 0 0 4px rgba(78, 204, 163, 0.15);
+}
+
+/* Cuerpo de texto del paso */
+.timeline-body {
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  flex: 1;
+}
+
+/* Título del paso Git */
+.timeline-body h4 {
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+
+/* Descripción del paso */
+.timeline-body p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Ejemplo de comando en línea */
+.timeline-body code {
+  display: inline-block;
+  background: rgba(78, 204, 163, 0.08);
+  border: 1px solid rgba(78, 204, 163, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: var(--accent);
+}
+
+/* =============================================
+   FORMULARIO DE CONTACTO
+   Campos de entrada y botón de envío
+============================================= */
+/* Centra el contenido del formulario */
+.contact-wrap { max-width: 600px; }
+
+/* Formulario con espaciado entre campos */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Grupo de campo: etiqueta + input */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Etiqueta del campo */
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+/* Estilos compartidos para input y textarea */
+.form-group input,
+.form-group textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color var(--transition);
+  outline: none;
+}
+
+/* Resalta el borde del campo activo con el color de acento */
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--accent);
+}
+
+/* Placeholder con color apagado */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Mensaje de éxito (oculto por defecto, aparece tras enviar) */
+.form-success {
+  display: none;
+  color: var(--accent);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* =============================================
+   PIE DE PÁGINA
+   Información de créditos al final de la página
+============================================= */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  background: var(--bg);
+}
+
+/* Layout del footer: logo, texto y nav en fila */
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Texto del copyright */
+.site-footer p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* Menú del footer */
+.footer-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Enlaces del footer */
+.footer-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color var(--transition);
+}
+
+.footer-nav a:hover {
+  color: var(--accent);
+}
+
+/* =============================================
+   CÓDIGO INLINE
+   Estilo para la etiqueta <code> dentro de párrafos
+============================================= */
+code {
+  background: rgba(78, 204, 163, 0.1);
+  color: var(--accent);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: 'Courier New', monospace;
+}
+
+/* =============================================
+   DISEÑO RESPONSIVO
+   Ajustes para pantallas pequeñas (móviles)
+   El breakpoint es 768px (tabletas y móviles)
+============================================= */
+@media (max-width: 768px) {
+
+  /* El menú de navegación se convierte en dropdown vertical */
+  .main-nav {
+    display: none;            /* Oculto por defecto en móvil */
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  /* El menú se muestra cuando tiene la clase "open" */
+  .main-nav.open {
+    display: block;
+  }
+
+  /* Los ítems del menú se apilan verticalmente */
+  .main-nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Hace visible el botón hamburguesa en móvil */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* El layout de dos columnas pasa a una sola columna */
+  .two-col {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Las secciones tienen menos padding vertical en móvil */
+  .section {
+    padding: 4rem 0;
+  }
+
+  /* El footer se apila verticalmente en pantallas pequeñas */
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
